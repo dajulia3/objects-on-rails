@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %title Bloog
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .container-fluid
+      %nav.navbar
+        .navbar-inner
+          %ul.nav
+            %li= link_to 'Home', root_path
+      .row-fluid
+        .span2
+          %nav
+            %ul.nav.nav-tabs.nav-stacked
+              %li= link_to "New post", new_post_path
+        .span10
+          = yield
