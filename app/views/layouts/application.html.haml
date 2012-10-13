@@ -7,6 +7,11 @@
     = csrf_meta_tags
   %body
     .container-fluid
+      -flash.each do |name, msg|
+        -alert_class = "alert-#{ name == :notice ? "success" : "error" }"
+        .notice.alert{class: alert_class }
+          %a.close{ data:{ dismiss: "alert" }} &#215;
+          =content_tag :div, msg, :id => "flash_#{name}"
       %nav.navbar
         .navbar-inner
           %ul.nav
