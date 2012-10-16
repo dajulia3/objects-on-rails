@@ -30,9 +30,35 @@ describe Blog do
 
   describe "#add_entry" do
     it "should add the entry to the blog" do
-      entry = Object.new
+      entry = mock(:entry).as_null_object
       subject.add_entry(entry)
       subject.entries.should include entry
+    end
+  end
+
+  describe "#entries" do
+    def stub_entry_with_date(date)
+      OpenStruct.new(pubdate: DateTime.parse(date))
+    end
+
+    it "should be sorted in reverse-chronological order" do
+      oldest = stub_entry_with_date("2011-09-09")
+      newest = stub_entry_with_date("2011-09-11")
+      middle = stub_entry_with_date("2011-09-10")
+      subject.add_entry(oldest)
+      subject.add_entry(newest)
+      subject.add_entry(middle)
+      subject.entries.should == [newest, middle, oldest]
+    end
+
+    it "should be limited to 10 items" do
+      10.times do |i|
+        subject.add_entry(stub_entry_with_date("2011-09-#{i+1}"))
+      end
+      oldest = stub_entry_with_date("2011-08-30")
+      subject.add_entry(oldest)
+      subject.entries.size.should == 10
+      subject.entries.should_not include oldest
     end
   end
 
