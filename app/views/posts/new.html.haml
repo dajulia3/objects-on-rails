@@ -3,5 +3,7 @@
 .stacked_form
   = form_for @post do |f|
     =f.text_field :title
+    =label :image_url, "Picture URL:"
+    =f.text_field :image_url
     =f.text_area :body
     =f.submit
